@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACE Engineering College - Student Registration</title>
+    <link rel="icon" type="image/png" href="C:\Users\ajayt\Downloads\images.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+        
+        .input-focus:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .step-completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="glass-effect rounded-2xl p-6 mb-6">
+                <div class="flex flex-col items-center justify-center mb-4">
+                    <img src="C:\Users\ajayt\Downloads\images.png" alt="ACE Engineering College Logo" class="w-24 h-24 mb-4 drop-shadow-lg rounded-full object-cover border-4 border-white" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='block';">
+                    <svg id="fallbackLogo" class="w-24 h-24 mb-4 drop-shadow-lg hidden" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" stroke="#4c51bf" stroke-width="3"/>
+                        <text x="50" y="32" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="Inter">ACE</text>
+                        <text x="50" y="50" text-anchor="middle" fill="white" font-size="9" font-weight="600" font-family="Inter">ENGINEERING</text>
+                        <text x="50" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="600" font-family="Inter">COLLEGE</text>
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                    </svg>
+                    <div class="text-center">
+                        <h1 class="text-4xl font-bold text-gray-800 mb-2">ACE Engineering College</h1>
+                        <p class="text-lg text-gray-600 font-medium">Student Registration Portal</p>
+                        <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded mx-auto mt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="glass-effect rounded-2xl p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-4">
+                    <div id="step1" class="step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center font-semibold">1</div>
+                    <div class="w-16 h-1 bg-gray-300 rounded">
+                        <div id="progress1" class="progress-bar h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded w-0"></div>
+                    </div>
+                    <div id="step2" class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-gray-300 text-gray-600">2</div>
+                    <div class="w-16 h-1 bg-gray-300 rounded">
+                        <div id="progress2" class="progress-bar h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded w-0"></div>
+                    </div>
+                    <div id="step3" class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-gray-300 text-gray-600">3</div>
+                </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+                <span>Personal Info</span>
+                <span>Academic Details</span>
+                <span>Review & Submit</span>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="registrationForm" class="glass-effect rounded-2xl p-8">
+            <!-- Step 1: Personal Information -->
+            <div id="step1Content" class="fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Personal Information</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                        <input type="text" id="firstName" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                        <input type="text" id="lastName" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                        <input type="email" id="email" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                        <input type="tel" id="phone" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth *</label>
+                        <input type="date" id="dob" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Gender *</label>
+                        <select id="gender" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                    <textarea id="address" required rows="3" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="button" onclick="nextStep(1)" class="btn-hover bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold">
+                        Next Step →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Academic Details -->
+            <div id="step2Content" class="hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Academic Details</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Department *</label>
+                        <select id="department" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Select Department</option>
+                            <option value="cse">Computer Science & Engineering (CSE)</option>
+                            <option value="it">Information Technology (IT)</option>
+                            <option value="aiml">Artificial Intelligence & Machine Learning (AIML)</option>
+                            <option value="csm">Computer Science & Mathematics (CSM)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Academic Year *</label>
+                        <select id="academicYear" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Select Year</option>
+                            <option value="2024-2025">2024-2025</option>
+                            <option value="2025-2026">2025-2026</option>
+                            <option value="2026-2027">2026-2027</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Previous School/College *</label>
+                        <input type="text" id="previousSchool" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Percentage/CGPA *</label>
+                        <input type="text" id="percentage" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Entrance Exam Score</label>
+                        <input type="text" id="examScore" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Semester *</label>
+                        <select id="semester" required class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Select Semester</option>
+                            <option value="1">1st Semester</option>
+                            <option value="2">2nd Semester</option>
+                            <option value="3">3rd Semester</option>
+                            <option value="4">4th Semester</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Why do you want to join ACE Engineering College?</label>
+                    <textarea id="motivation" rows="4" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Tell us about your motivation and goals..."></textarea>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="button" onclick="prevStep(2)" class="btn-hover bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold">
+                        ← Previous
+                    </button>
+                    <button type="button" onclick="nextStep(2)" class="btn-hover bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold">
+                        Review →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Review & Submit -->
+            <div id="step3Content" class="hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Review Your Information</h2>
+                
+                <div id="reviewContent" class="space-y-6 mb-8">
+                    <!-- Review content will be populated by JavaScript -->
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="terms" required class="mr-3 w-4 h-4 text-blue-600">
+                        <label for="terms" class="text-sm text-gray-700">
+                            I agree to the <a href="#" class="text-blue-600 hover:underline">Terms and Conditions</a> and 
+                            <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a> of ACE Engineering College.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="button" onclick="prevStep(3)" class="btn-hover bg-gray-500 text-white px-8 py-3 rounded-lg font-semibold">
+                        ← Previous
+                    </button>
+                    <button type="submit" class="btn-hover bg-gradient-to-r from-green-500 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold">
+                        Submit Registration ✓
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="glass-effect rounded-2xl p-8 max-w-md mx-4 text-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Registration Successful!</h3>
+                <p class="text-gray-600 mb-6">Your application has been submitted successfully. You will receive a confirmation email shortly.</p>
+                <button onclick="closeModal()" class="btn-hover bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        
+        function nextStep(step) {
+            if (validateStep(step)) {
+                currentStep = step + 1;
+                updateStepDisplay();
+                if (step === 2) {
+                    populateReview();
+                }
+            }
+        }
+        
+        function prevStep(step) {
+            currentStep = step - 1;
+            updateStepDisplay();
+        }
+        
+        function validateStep(step) {
+            const requiredFields = {
+                1: ['firstName', 'lastName', 'email', 'phone', 'dob', 'gender', 'address'],
+                2: ['department', 'academicYear', 'previousSchool', 'percentage', 'semester']
+            };
+            
+            const fields = requiredFields[step];
+            let isValid = true;
+            
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    field.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    field.classList.remove('border-red-500');
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please fill in all required fields.');
+            }
+            
+            return isValid;
+        }
+        
+        function updateStepDisplay() {
+            // Hide all steps
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`step${i}Content`).classList.add('hidden');
+                const stepIndicator = document.getElementById(`step${i}`);
+                stepIndicator.classList.remove('step-active', 'step-completed');
+                stepIndicator.classList.add('bg-gray-300', 'text-gray-600');
+            }
+            
+            // Show current step
+            document.getElementById(`step${currentStep}Content`).classList.remove('hidden');
+            document.getElementById(`step${currentStep}Content`).classList.add('fade-in');
+            
+            // Update step indicators
+            for (let i = 1; i <= 3; i++) {
+                const stepIndicator = document.getElementById(`step${i}`);
+                const progressBar = document.getElementById(`progress${i}`);
+                
+                if (i < currentStep) {
+                    stepIndicator.classList.remove('bg-gray-300', 'text-gray-600');
+                    stepIndicator.classList.add('step-completed');
+                    if (progressBar) progressBar.style.width = '100%';
+                } else if (i === currentStep) {
+                    stepIndicator.classList.remove('bg-gray-300', 'text-gray-600');
+                    stepIndicator.classList.add('step-active');
+                    if (progressBar) progressBar.style.width = '50%';
+                } else {
+                    stepIndicator.classList.add('bg-gray-300', 'text-gray-600');
+                    if (progressBar) progressBar.style.width = '0%';
+                }
+            }
+        }
+        
+        function populateReview() {
+            const reviewContent = document.getElementById('reviewContent');
+            const formData = {
+                'Personal Information': {
+                    'Name': `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`,
+                    'Email': document.getElementById('email').value,
+                    'Phone': document.getElementById('phone').value,
+                    'Date of Birth': document.getElementById('dob').value,
+                    'Gender': document.getElementById('gender').value,
+                    'Address': document.getElementById('address').value
+                },
+                'Academic Details': {
+                    'Department': document.getElementById('department').selectedOptions[0]?.text || '',
+                    'Academic Year': document.getElementById('academicYear').value,
+                    'Previous School/College': document.getElementById('previousSchool').value,
+                    'Percentage/CGPA': document.getElementById('percentage').value,
+                    'Entrance Exam Score': document.getElementById('examScore').value || 'Not provided',
+                    'Preferred Semester': document.getElementById('semester').selectedOptions[0]?.text || '',
+                    'Motivation': document.getElementById('motivation').value || 'Not provided'
+                }
+            };
+            
+            let html = '';
+            Object.keys(formData).forEach(section => {
+                html += `<div class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold text-lg text-gray-800 mb-3">${section}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+                
+                Object.keys(formData[section]).forEach(key => {
+                    html += `<div>
+                        <span class="text-sm font-medium text-gray-600">${key}:</span>
+                        <p class="text-gray-800">${formData[section][key]}</p>
+                    </div>`;
+                });
+                
+                html += `</div></div>`;
+            });
+            
+            reviewContent.innerHTML = html;
+        }
+        
+        function showSuccessModal() {
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
+        }
+        
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+            // Reset form
+            document.getElementById('registrationForm').reset();
+            currentStep = 1;
+            updateStepDisplay();
+        }
+        
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('terms').checked) {
+                alert('Please accept the terms and conditions.');
+                return;
+            }
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showSuccessModal();
+            }, 1000);
+        });
+        
+        // Initialize
+        updateStepDisplay();
+        
+        // Add real-time validation
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.classList.add('border-red-500');
+                } else {
+                    this.classList.remove('border-red-500');
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976995690364bd55',t:'MTc1NjQ0NDY2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
