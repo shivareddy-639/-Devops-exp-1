@@ -1,4 +1,3 @@
-jenkins project
 
 📋 Student Registration Form – AEC Engineering College
 
